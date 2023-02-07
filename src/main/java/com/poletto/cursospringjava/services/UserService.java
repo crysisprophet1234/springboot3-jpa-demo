@@ -22,13 +22,8 @@ public class UserService {
 
 	public User findById(Long id) {
 		
-		try {
 		Optional<User> obj = userRepository.findById(id);
-		return obj.orElseThrow();
-		} catch (NoSuchElementException e) {
-			return new User(0L, "User not found", "n/a", "n/a", "n/a");
-		}
-		
+		return obj.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado!"));	
 		
 	}
 	
