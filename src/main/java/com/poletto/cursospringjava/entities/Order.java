@@ -105,6 +105,15 @@ public class Order implements Serializable {
 			throw new IllegalArgumentException("Invalid OrderStatus code");
 		}
 	}
+	
+	public double getTotal() {
+		double sum = 0D;
+		for (OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+		
+		return sum;
+	}
 
 	@Override
 	public int hashCode() {
