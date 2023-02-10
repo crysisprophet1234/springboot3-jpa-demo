@@ -2,6 +2,7 @@ package com.poletto.cursospringjava.config;
 
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +15,7 @@ import com.poletto.cursospringjava.entities.OrderItem;
 import com.poletto.cursospringjava.entities.Product;
 import com.poletto.cursospringjava.entities.User;
 import com.poletto.cursospringjava.entities.enums.OrderStatus;
+import com.poletto.cursospringjava.entities.pk.Payment;
 import com.poletto.cursospringjava.repos.CategoryRepository;
 import com.poletto.cursospringjava.repos.OrderItemRepository;
 import com.poletto.cursospringjava.repos.OrderRepository;
@@ -79,6 +81,11 @@ public class TestConfig implements CommandLineRunner {
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T22:53:07Z"), o1);
+		o1.setPayment(pay1);
+		
+		orderRepository.save(o1);
 		
 
 	}
