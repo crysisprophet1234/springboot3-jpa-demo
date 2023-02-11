@@ -19,21 +19,21 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public final PasswordEncoder encoder = new BCryptPasswordEncoder();
-	
+
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
 
-	public User findById(Long id) {		
+	public User findById(Long id) {
 		Optional<User> obj = userRepository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));	
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
+
 	public User findByName(String name) {
 		Optional<User> obj = userRepository.findByName(name);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(name));
@@ -43,33 +43,49 @@ public class UserService {
 		user.setPassword(encoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
-	
+
 	public void delete(Long id) {
 		try {
-		userRepository.deleteById(id);
+			userRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
-	
-	public User update (User user, Long id) {
+
+	public User update(User user, Long id) {
 		try {
-		User entity = userRepository.getReferenceById(id);
-		updateData(entity, user);
-		return userRepository.save(entity);
+			User entity = userRepository.getReferenceById(id);
+			updateData(entity, user);
+			return userRepository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
 	}
 
 	private void updateData(User entity, User user) {
-		
+
 		entity.setName(user.getName());
 		entity.setEmail(user.getEmail());
 		entity.setPhone(user.getPhone());
-		
+
 	}
 	
+	public Boolean login (String name, String password) {
+		
+		Optional<User> optUser = userRepository.findByName(name);
+		
+		if (optUser.isEmpty()) {
+			return false;
+		}
+		
+		User user = optUser.get();
+		
+		boolean valid = encoder.matches(password, user.getPassword());
+		
+		return valid;
+		
+	}
+
 }

@@ -2,7 +2,6 @@ package com.poletto.cursospringjava.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,22 +59,10 @@ public class UserResource {
 	}
 	
 	@GetMapping(value = "/login")
-	public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-		
-		Optional<User> optUser = Optional.ofNullable(service.findByName(username));
-		
-		if (optUser.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-		}
-		
-		User user = optUser.get();
-		boolean valid = service.encoder.matches(password, user.getPassword());
-		
-		HttpStatus status = valid ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
-		String msg = valid ? "Username and password matches" : "Username and password doesnt matches";
-		
-		return ResponseEntity.status(status).body(msg);
-		
+	public ResponseEntity<Boolean> login(@RequestParam String username, @RequestParam String password) {
+		Boolean login = service.login(username, password);
+		HttpStatus status = login ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+		return ResponseEntity.status(status).body(login);
 	}
 	
 }
