@@ -13,6 +13,8 @@ import com.poletto.cursospringjava.repos.UserRepository;
 import com.poletto.cursospringjava.services.exceptions.DatabaseException;
 import com.poletto.cursospringjava.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 	
@@ -43,9 +45,13 @@ public class UserService {
 	}
 	
 	public User update (User user, Long id) {
+		try {
 		User entity = userRepository.getReferenceById(id);
 		updateData(entity, user);
 		return userRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User entity, User user) {
