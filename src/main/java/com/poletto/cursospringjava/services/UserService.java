@@ -20,11 +20,13 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public User findById(Long id) {
-		
+	public User findById(Long id) {		
 		Optional<User> obj = userRepository.findById(id);
 		return obj.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado!"));	
-		
+	}
+	
+	public User insert(User user) {
+		return userRepository.save(user);
 	}
 	
 }
