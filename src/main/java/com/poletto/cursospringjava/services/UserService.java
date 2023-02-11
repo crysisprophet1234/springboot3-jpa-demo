@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.poletto.cursospringjava.entities.User;
@@ -21,6 +23,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	public final PasswordEncoder encoder = new BCryptPasswordEncoder();
+	
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
@@ -30,7 +34,13 @@ public class UserService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));	
 	}
 	
+	public User findByName(String name) {
+		Optional<User> obj = userRepository.findByName(name);
+		return obj.orElseThrow(() -> new ResourceNotFoundException(name));
+	}
+
 	public User insert(User user) {
+		user.setPassword(encoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 	
