@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poletto.cursospringjava.entities.enums.OrderStatus;
-import com.poletto.cursospringjava.entities.pk.Payment;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

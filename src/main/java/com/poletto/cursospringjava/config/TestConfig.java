@@ -2,7 +2,6 @@ package com.poletto.cursospringjava.config;
 
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,10 +11,10 @@ import org.springframework.context.annotation.Profile;
 import com.poletto.cursospringjava.entities.Category;
 import com.poletto.cursospringjava.entities.Order;
 import com.poletto.cursospringjava.entities.OrderItem;
+import com.poletto.cursospringjava.entities.Payment;
 import com.poletto.cursospringjava.entities.Product;
 import com.poletto.cursospringjava.entities.User;
 import com.poletto.cursospringjava.entities.enums.OrderStatus;
-import com.poletto.cursospringjava.entities.pk.Payment;
 import com.poletto.cursospringjava.repos.CategoryRepository;
 import com.poletto.cursospringjava.repos.OrderItemRepository;
 import com.poletto.cursospringjava.repos.OrderRepository;

@@ -1,11 +1,10 @@
-package com.poletto.cursospringjava.entities.pk;
+package com.poletto.cursospringjava.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poletto.cursospringjava.entities.Order;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
